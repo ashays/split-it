@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.firebase.client.Firebase;
+import com.facebook.FacebookSdk;
 
 public class LoginActivity extends AppCompatActivity {
 
