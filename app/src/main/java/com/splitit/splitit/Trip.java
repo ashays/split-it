@@ -15,6 +15,10 @@ public class Trip {
     private boolean activeTrip;
     private String id;
 
+    public Trip(String tripName) {
+        this.tripName = tripName;
+    }
+
     public void addPerson(Person person) {
         if (people.contains(person)) {
             return;
