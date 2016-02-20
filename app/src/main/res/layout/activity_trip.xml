@@ -5,8 +5,15 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_height="449dp"
+        android:layout_width="wrap_content">
     </ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Trip"
+        android:onClick="newTrip"
+        android:id="@+id/button" />
 
 </LinearLayout>

@@ -25,7 +25,7 @@ public class Trip {
         this.tripName = tripName;
     }
 
-    public String getPlace() {
+    public String getTripName() {
         return this.tripName;
     }
 
@@ -39,7 +39,7 @@ public class Trip {
         }
     }
 
-    public void setStartdate(Date startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
