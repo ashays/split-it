@@ -13,6 +13,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
+        this.trips = new ArrayList<Trip>();
     }
 
     public void setName(String firstName, String lastName) {
@@ -30,5 +31,13 @@ public class Person {
 
     public ArrayList<Trip> getTrips() {
         return trips;
+    }
+
+    public void setTrips(ArrayList<Trip> al) {
+        this.trips = al;
+    }
+
+    public void addTrip(Trip trip) {
+        this.trips.add(trip);
     }
 }
