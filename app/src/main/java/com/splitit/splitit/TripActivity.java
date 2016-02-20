@@ -37,6 +37,7 @@ public class TripActivity extends Activity {
         tripsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                trips.clear();
                 System.out.println("There are " + snapshot.getChildrenCount() + " trips");
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     trips.add(new Trip((String) postSnapshot.child("name").getValue()));

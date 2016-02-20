@@ -31,7 +31,7 @@ public class AddTripActivity extends AppCompatActivity {
         EditText tripPlace = (EditText) findViewById(R.id.tripPlace);
         EditText creator = (EditText) findViewById(R.id.creator);
         Trip newTrip = new Trip(tripName.getText().toString());
-        TripActivity.trips.add(newTrip);
+        //TripActivity.trips.add(newTrip);
         Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
         Firebase tripsRef = firebaseRef.child("trips");
         Map<String, String> tripNew = new HashMap<String, String>();
