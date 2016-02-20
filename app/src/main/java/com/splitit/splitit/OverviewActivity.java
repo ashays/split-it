@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -22,12 +23,12 @@ import java.util.HashMap;
 
 public class OverviewActivity extends AppCompatActivity {
 
-    private ListView chargeList, chargeTitleList;
-    private ArrayList<HashMap<String, String>> chargeArrayList, chargeTitleArrayList;
-    private ListAdapter adapter, adapter_title;
-    private HashMap<String, String> chargeMap, chargeTitleMap;
-    private String[] chargeName = {"Dinner", "movies", "Dinner again"};
-    private String[] chargeValue = {"9.54", "8.34", "-5.43"};
+    private ListView chargeList;
+    private ArrayList<HashMap<String, String>> chargeArrayList;
+    private ListAdapter adapter;
+    private HashMap<String, String> chargeMap;
+    private ArrayList<String> chargeName = new ArrayList<>();
+    private ArrayList<String> chargeValue = new ArrayList<>();
     private String[] chargePerson = {"Crishna", "ashay", "Eric"};
     private ArrayList<String> tripIds = new ArrayList<>();
     private String currentTripId = "-KAy68tW4PoGNyVPAMhi";
@@ -42,6 +43,7 @@ public class OverviewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://split-it.firebaseio.com/");
+        final Firebase ref2 = new Firebase("https://split-it.firebaseio.com/");
 
 
 
@@ -55,33 +57,43 @@ public class OverviewActivity extends AppCompatActivity {
         });
 
 
+
         //currentTrip = new Trip(currentTripId);
-        /*myFirebaseRef.child("trips").child(currentTripId).child("charges").addValueEventListener(new ValueEventListener() {
+        myFirebaseRef.child("trips").child(currentTripId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
                 boolean credit = false;
-                for (DataSnapshot person: snapshot.child("transaction").getChildren()) {
-                    if (person.getKey().equals(currentLoginId)) {
-                        if (Integer.parseInt(person.getValue()) > 0) {
-                            credit = true;
-
-                        }
-                        if (credit) {
-
-                        }
-                        chargeName.add(snapshot.child("name"));
-                        chargeValue.add()
+                for (DataSnapshot transaction: snapshot.getChildren()) {
+                    System.out.println("LOOK HERE" + transaction.child(currentLoginId).exists());
+                    if (transaction.child(currentLoginId).exists()) {
+                        chargeName.add((String) snapshot.child("name").getValue());
+                        chargeValue.add((String) transaction.child(currentLoginId).getValue());
                     }
                 }
             }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+                System.out.println("hi");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
+                System.out.println("Double hi");
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                System.out.println("Leave me alone");
+            }
+
             @Override
             public void onCancelled(FirebaseError error) {
             }
-        });*/
+        });
 
 
         chargeList = (ListView) findViewById(R.id.charges_listView);
-        chargeTitleList = (ListView) findViewById(R.id.charges_header);
         showActivity();
 
     }
@@ -89,39 +101,20 @@ public class OverviewActivity extends AppCompatActivity {
     public void showActivity() {
 
             chargeArrayList = new ArrayList<HashMap<String, String>>();
-            chargeTitleArrayList = new ArrayList<HashMap<String, String>>();
-            
-            /**********Display the headings************/
-            
-            
-            chargeTitleMap = new HashMap<String, String>();
-
-            chargeTitleMap.put("one", "Chage name");
-            chargeTitleMap.put("two", "Details");
-            chargeTitleMap.put("three", "Amount");
-            chargeTitleArrayList.add(chargeTitleMap);
-
-            
-            
-            try {
-                adapter_title = new SimpleAdapter(this, chargeTitleArrayList, R.layout.row,
-                        new String[] { "one", "two", "three" }, new int[] {
-                                R.id.one, R.id.two, R.id.three });
-                chargeTitleList.setAdapter(adapter_title);
-            } catch (Exception e) {
-                
-            }
+   
             
             /********************************************************/
             
             
             /**********Display the contents************/
-            
-            for (int i = 0; i < chargeName.length; i++) {
+            System.out.println("chargeNameSize" + chargeName.size());
+
+            for (int i = 0; i < chargeName.size(); i++) {
                 chargeMap = new HashMap<String, String>();
 
-                chargeMap.put("one", chargeName[i]);
-                chargeMap.put("three", chargeValue[i]);
+                chargeMap.put("one", chargeName.get(i));
+                System.out.println(chargeName.get(i));
+                chargeMap.put("three", chargeValue.get(i));
                 chargeArrayList.add(chargeMap);
             }
 
