@@ -15,8 +15,8 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".TripActivity"
-            android:label="@string/app_name"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -32,6 +33,17 @@
             android:name=".OverviewActivity"
             android:label="@string/title_activity_overview"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+=======
+            android:name=".TripActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".OverviewActivity"
+            android:label="@string/title_activity_overview"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+>>>>>>> bd6b37535f0a1fc5b00065f8b2ac3bcdbf2d299e
     </application>
 
 </manifest>
