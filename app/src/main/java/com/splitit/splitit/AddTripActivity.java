@@ -6,10 +6,16 @@ import android.widget.EditText;
 import android.view.View;
 import android.content.Intent;
 
+import com.firebase.client.Firebase;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddTripActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_add_trip);
         EditText tripName = (EditText) findViewById(R.id.tripName);
         EditText tripPlace = (EditText) findViewById(R.id.tripPlace);
@@ -27,6 +33,11 @@ public class AddTripActivity extends AppCompatActivity {
         Trip newTrip = new Trip();
         newTrip.setTripName(tripName.getText().toString());
         TripActivity.trips.add(newTrip);
+        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
+        Firebase tripsRef = firebaseRef.child("trips");
+        Map<String, String> tripNew = new HashMap<String, String>();
+        tripNew.put("name", tripName.getText().toString());
+        tripsRef.push().setValue(tripNew);
         Intent i = new Intent(AddTripActivity.this, TripActivity.class);
         startActivity(i);
     }
