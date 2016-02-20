@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import java.util.ArrayList;
 import android.widget.Toast;
 import java.util.HashMap;
 
-public class TripActivity extends Activity {
-    ArrayList<Trip> trips = new ArrayList<Trip>();
+public class TripListActivity extends Activity {
     ListView listView ;
 
     @Override
@@ -46,7 +44,7 @@ public class TripActivity extends Activity {
         // Forth - the Array of data
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, values);
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
 
         // Assign adapter to ListView
