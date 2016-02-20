@@ -22,18 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-<<<<<<< HEAD
-            android:name=".TripListActivity"
-            android:label="@string/title_activity_trip_list"
-=======
             android:name=".OverviewActivity"
             android:label="@string/title_activity_overview"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
->>>>>>> origin/master
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
