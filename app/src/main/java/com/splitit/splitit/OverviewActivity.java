@@ -6,8 +6,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.firebase.client.Firebase;
 
 public class OverviewActivity extends AppCompatActivity {
+    private ListView listView;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +24,12 @@ public class OverviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_overview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        Firebase.setAndroidContext(this);
+
+
+        Firebase myFirebaseRef = new Firebase("https://split-it.firebaseio.com/");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -24,6 +39,16 @@ public class OverviewActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        myFirebaseRef.child("trips").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+            }
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+
     }
 
 }
