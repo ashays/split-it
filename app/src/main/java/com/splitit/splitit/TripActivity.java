@@ -27,6 +27,9 @@ public class TripActivity extends Activity {
     public static ArrayList<Trip> trips = new ArrayList<Trip>();
     ListView listView;
     public static Trip currentTrip;
+    public static String[] listValues;
+    public static ArrayAdapter<String> adapter;
+    public static Person currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,62 +37,40 @@ public class TripActivity extends Activity {
         Firebase.setAndroidContext(this);
         Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
         Firebase tripsRef = firebaseRef.child("trips");
-        tripsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                trips.clear();
-                System.out.println("There are " + snapshot.getChildrenCount() + " trips");
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    trips.add(new Trip((String) postSnapshot.child("name").getValue()));
-                }
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-
         // Defined Array values to show in ListView
-        String[] values = new String[trips.size()];
-        for (int i = 0; i < values.length; i++) {
-            values[i] = trips.get(i).getTripName();
+        trips = currentUser.getTrips();
+        System.out.println(trips.size());
+        listValues = new String[trips.size()];
+        int i = 0;
+        for (Trip t : trips) {
+            listValues[i] = t.getTripName();
+            i++;
         }
-
         // Define a new Adapter
         // First parameter - Context
         // Second parameter - Layout for the row
         // Third parameter - ID of the TextView to which the data is written
         // Forth - the Array of data
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, values);
-
-
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_2, android.R.id.text1, listValues);
         // Assign adapter to ListView
         listView.setAdapter(adapter);
-
         // ListView Item Click Listener
         listView.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
                 // ListView Clicked item index
                 int itemPosition     = position;
-
                 // ListView Clicked item value
                 String  itemValue    = (String) listView.getItemAtPosition(position);
-
                 // Show Alert
                 Intent i = new Intent(TripActivity.this, OverviewActivity.class);
                 currentTrip = trips.get(itemPosition);
                 startActivity(i);
-
             }
-
         });
     }
 
