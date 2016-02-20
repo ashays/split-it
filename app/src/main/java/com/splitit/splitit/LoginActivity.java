@@ -10,6 +10,8 @@ import android.view.View;
 import com.firebase.client.Firebase;
 import com.facebook.FacebookSdk;
 
+
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -19,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
