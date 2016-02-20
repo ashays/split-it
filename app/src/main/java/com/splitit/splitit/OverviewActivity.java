@@ -27,11 +27,10 @@ public class OverviewActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> chargeArrayList;
     private ListAdapter adapter;
     private HashMap<String, String> chargeMap;
-    private ArrayList<String> chargeName = new ArrayList<>();
-    private ArrayList<String> chargeValue = new ArrayList<>();
+    public static ArrayList<String> chargeName = new ArrayList<>();
+    public static ArrayList<String> chargeValue = new ArrayList<>();
     private String[] chargePerson = {"Crishna", "ashay", "Eric"};
     private ArrayList<String> tripIds = new ArrayList<>();
-    private String currentTripId = "-KAy68tW4PoGNyVPAMhi";
     private String currentLoginId = "bob";
 
 
@@ -59,40 +58,9 @@ public class OverviewActivity extends AppCompatActivity {
 
 
         //currentTrip = new Trip(currentTripId);
-        myFirebaseRef.child("trips").child(currentTripId).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                boolean credit = false;
-                for (DataSnapshot transaction: snapshot.getChildren()) {
-                    System.out.println("LOOK HERE" + transaction.child(currentLoginId).exists());
-                    if (transaction.child(currentLoginId).exists()) {
-                        chargeName.add((String) snapshot.child("name").getValue());
-                        chargeValue.add((String) transaction.child(currentLoginId).getValue());
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
-                System.out.println("hi");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
-                System.out.println("Double hi");
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-                System.out.println("Leave me alone");
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {
-            }
-        });
 
 
+        System.out.println(chargeName.size() + " OIHSDFOSD    " + chargeValue.size());
         chargeList = (ListView) findViewById(R.id.charges_listView);
         showActivity();
 

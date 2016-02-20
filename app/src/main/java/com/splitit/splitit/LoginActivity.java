@@ -42,7 +42,9 @@ public class LoginActivity extends AppCompatActivity {
                         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                             System.out.println("hihi");
                             String tripName = (String) postSnapshot.child("name").getValue();
-                            TripActivity.currentUser.addTrip(new Trip(tripName));
+                            Trip newTrip = new Trip(tripName);
+                            newTrip.setId(postSnapshot.getKey());
+                            TripActivity.currentUser.addTrip(newTrip);
                         }
                         Intent i = new Intent(LoginActivity.this, TripActivity.class);
                         startActivity(i);

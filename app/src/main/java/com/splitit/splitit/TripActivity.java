@@ -35,8 +35,7 @@ public class TripActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
-        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-        Firebase tripsRef = firebaseRef.child("trips");
+        final Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/");
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         // Defined Array values to show in ListView
@@ -69,6 +68,41 @@ public class TripActivity extends Activity {
                 // Show Alert
                 Intent i = new Intent(TripActivity.this, OverviewActivity.class);
                 currentTrip = trips.get(itemPosition);
+
+                String currentTripId = currentTrip.getId();
+                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        boolean credit = false;
+                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
+                            System.out.println("LOOK HERE" + charge.child("transaction").child("bob").exists());
+                            if (charge.child("transaction").child("bob").exists()) {
+                                System.out.println("HERE ALSO" + charge.child("name").getValue());
+                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
+                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child("bob").getValue());
+                            }
+                        }
+                    }
+                    /*@Override
+                    public void onChildRemoved(DataSnapshot snapshot) {
+                        System.out.println("hi");
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
+                        System.out.println("Double hi");
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                        System.out.println("Leave me alone");
+                    }*/
+
+                    @Override
+                    public void onCancelled(FirebaseError error) {
+                    }
+                });
+
                 startActivity(i);
             }
         });
