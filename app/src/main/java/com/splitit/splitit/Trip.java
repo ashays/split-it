@@ -13,6 +13,7 @@ public class Trip {
     private Date startDate;
     private Date endDate;
     private boolean activeTrip;
+    private String id;
 
     public Trip(String tripName) {
         this.tripName = tripName;
@@ -23,6 +24,14 @@ public class Trip {
             return;
         }
         people.add(person);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setTripName(String tripName) {
