@@ -2,6 +2,7 @@ package com.splitit.splitit;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by ciyengar on 2/20/16.
@@ -14,9 +15,10 @@ public class Trip {
     private Date endDate;
     private boolean activeTrip;
     private String id;
+    private HashMap<Person, Integer> charges;
 
-    public Trip(String tripName) {
-        this.tripName = tripName;
+    public Trip(String tripId) {
+        this.id = tripId;
     }
 
     public void addPerson(Person person) {
@@ -51,6 +53,14 @@ public class Trip {
             people.remove(person);
         }
     }
+
+    public void setCharge(Person person, int charge) {
+        charges.put(person, (Integer)charge);
+    }
+
+    /*public String getCharge(Person person, int position) {
+        
+    }*/
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
