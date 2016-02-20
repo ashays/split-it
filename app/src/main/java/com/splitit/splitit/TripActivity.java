@@ -15,6 +15,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import java.util.ArrayList;
 import android.widget.Toast;
 import android.content.Intent;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 import java.util.HashMap;
 
 public class TripActivity extends Activity {
@@ -25,7 +31,22 @@ public class TripActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
-
+        Firebase.setAndroidContext(this);
+        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
+        Firebase tripsRef = firebaseRef.child("trips");
+        tripsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println("There are " + snapshot.getChildrenCount() + " trips");
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    trips.add(new Trip((String) postSnapshot.child("name").getValue()));
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
 
