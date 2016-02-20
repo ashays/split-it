@@ -14,29 +14,26 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import java.util.ArrayList;
 import android.widget.Toast;
+import android.content.Intent;
 import java.util.HashMap;
 
 public class TripActivity extends Activity {
-    ArrayList<Trip> trips = new ArrayList<Trip>();
-    ListView listView ;
-
+    public static ArrayList<Trip> trips = new ArrayList<Trip>();
+    ListView listView;
+    public static Trip currentTrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trip);
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
 
         // Defined Array values to show in ListView
-        String[] values = new String[] { "Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View"
-        };
+        String[] values = new String[trips.size()];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = trips.get(i).getTripName();
+        }
 
         // Define a new Adapter
         // First parameter - Context
@@ -45,7 +42,7 @@ public class TripActivity extends Activity {
         // Forth - the Array of data
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, values);
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
 
         // Assign adapter to ListView
@@ -65,13 +62,18 @@ public class TripActivity extends Activity {
                 String  itemValue    = (String) listView.getItemAtPosition(position);
 
                 // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                        .show();
+                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
+                currentTrip = trips.get(itemPosition);
+                startActivity(i);
 
             }
 
         });
+    }
+
+    public void newTrip(View view) {
+        Intent i = new Intent(TripActivity.this, AddTripActivity.class);
+        startActivity(i);
     }
 
 }
