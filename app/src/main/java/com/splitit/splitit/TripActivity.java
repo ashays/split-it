@@ -42,7 +42,7 @@ public class TripActivity extends Activity {
         // Forth - the Array of data
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+                android.R.layout.simple_list_item_2, android.R.id.text1, values);
 
 
         // Assign adapter to ListView
