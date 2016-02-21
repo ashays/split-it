@@ -86,10 +86,10 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
     @Override
     public void onFirebaseLoggedIn(AuthData authData) {
         Intent i = new Intent(LoginActivity.this, TripActivity.class);
-        TripActivity.uid = authData.getUid();
+        String uid = authData.getUid();
         Map<String, Object> pd = authData.getProviderData();
         String[] pieces = ((String)pd.get("displayName")).split(" ");;
-        TripActivity.currentUser = new Person(pieces[0], pieces[1], TripActivity.uid.toString());
+        TripActivity.currentUser = new Person(pieces[0], pieces[1], uid);
         startActivity(i);
         /*
         Firebase fb = getFirebaseRef();

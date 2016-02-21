@@ -202,13 +202,12 @@ public class OverviewActivity extends AppCompatActivity {
 
 
 
-        for (int i = 0; i < chargeName.size(); i++) {
-            chargeTotalMap = new HashMap<String, String>();
+        chargeTotalMap = new HashMap<String, String>();
 
-            chargeTotalMap.put("one", "Total");
-            chargeTotalMap.put("three", String.valueOf(total));
-            chargeTotalArrayList.add(chargeTotalMap);
-        }
+        chargeTotalMap.put("one", "Total");
+        chargeTotalMap.put("three", String.valueOf(total));
+        chargeTotalArrayList.add(chargeTotalMap);
+        
 
         
         try {
