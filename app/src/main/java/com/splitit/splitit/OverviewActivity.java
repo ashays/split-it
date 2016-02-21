@@ -55,8 +55,8 @@ public class OverviewActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(OverviewActivity.this, AddChargeActivity.class);
+                startActivity(i);
             }
         });
 
@@ -87,7 +87,7 @@ public class OverviewActivity extends AppCompatActivity {
 
                 startActivity(i);*/
             }
-        
+
 
         });
 
@@ -111,11 +111,10 @@ public class OverviewActivity extends AppCompatActivity {
         }
 
 
-
         alertDialogBuilder.setTitle(chargeName.get(position))
-               .setItems(dialogStrings, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int which) {
-                   // The 'which' argument contains the index position
+                .setItems(dialogStrings, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
                    // of the selected item
                }
         });

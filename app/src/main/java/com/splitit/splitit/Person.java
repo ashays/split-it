@@ -29,6 +29,8 @@ public class Person {
         return lastName;
     }
 
+    public String getID() { return id; }
+
     public ArrayList<Trip> getTrips() {
         return trips;
     }
