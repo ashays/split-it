@@ -34,9 +34,10 @@ public class OverviewActivity extends AppCompatActivity {
     public static ArrayList<String> chargeName = new ArrayList<>();
     public static ArrayList<String> chargeValue = new ArrayList<>();
     public static ArrayList<HashMap<String, String>> everyCharge = new ArrayList<>();
+    public static ArrayList<People> peopleAtTrip = new ArrayList<>();
     private String[] chargePerson = {"Crishna", "ashay", "Eric"};
     private ArrayList<String> tripIds = new ArrayList<>();
-    private String currentLoginId = "bob";
+    private String currentLoginId;
 
 
     @Override
@@ -49,7 +50,7 @@ public class OverviewActivity extends AppCompatActivity {
         Firebase myFirebaseRef = new Firebase("https://split-it.firebaseio.com/");
         final Firebase ref2 = new Firebase("https://split-it.firebaseio.com/");
 
-
+        currentLoginId = TripActivity.currentUser.getId();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +105,8 @@ public class OverviewActivity extends AppCompatActivity {
         dialogStrings[0] = "You " + (Integer.parseInt(money) < 0 ? "owe " : "paid ") + money.substring(0) + " for this charge";
         System.out.println(dialogStrings[0]);
         int i = 1;
+
+
         for (String key : everyCharge.get(position).keySet()) {
             money = everyCharge.get(position).get(key);
             dialogStrings[i] = key + " " + (Integer.parseInt(money) < 0 ? "owes " : "paid ") + money.substring(1) + " for this charge";

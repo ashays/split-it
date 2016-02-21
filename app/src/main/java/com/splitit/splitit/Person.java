@@ -16,9 +16,21 @@ public class Person {
         this.trips = new ArrayList<Trip>();
     }
 
+    public Person(String id) {
+        this.id = id;
+    }
+
     public void setName(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
