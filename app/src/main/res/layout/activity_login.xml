@@ -20,7 +20,7 @@
         android:layout_marginLeft="130dp"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:fontFamily="Roboto"
+        android:fontFamily="sans-serif-black"
         android:textSize="100dp"
         android:text="split" />
 
@@ -30,7 +30,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="540dp"
         android:textColor="@android:color/white"
-        android:fontFamily="Roboto"
+        android:fontFamily="sans-serif-light"
         android:textSize="100dp"
         android:text="it." />
 
