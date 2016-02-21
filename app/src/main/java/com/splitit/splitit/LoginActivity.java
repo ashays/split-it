@@ -129,6 +129,11 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                 }
                 System.out.println("There are " + TripActivity.currentUser.getTrips() + " in arraylist.");
                 Intent i = new Intent(LoginActivity.this, TripActivity.class);
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                    //sup
+                }
                 startActivity(i);
             }
 

@@ -75,23 +75,30 @@ public class TripActivity extends Activity {
                         OverviewActivity.chargeValue.clear();
                         OverviewActivity.peopleAtTrip.clear();
 
-//                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
-//                            Person addingPerson = new Person(person.getValue());
-//                            peopleAtTrip.add(addingPerson);
-//                        }
+                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
+                            Person addingPerson = new Person(person.getValue());
+                            Firebase userRefTemp = new Firebase("https://split-it.firebaseio.com/").child("users").child(person.getValue());
+                                userRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    addingPerson.setName(snapshot.child("firstName").getValue(), snapshot.child("lastName").getValue());
+                                    peopleAtTrip.add(addingPerson);
+                                }
+                            });
 
-//                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
-//                            if (charge.child("transaction").child(currentUserId).exists()) {
-//                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
-//                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
-//                                HashMap<String, String> transaction = new HashMap<>();
-//                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
-//                                    if (!information.getKey().equals(currentUserId))
-//                                        transaction.put((String) information.getKey(), (String) information.getValue());
-//                                }
-//                                OverviewActivity.everyCharge.add(transaction);
-//                            }
-//                        }
+
+                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
+                           if (charge.child("transaction").child(currentUserId).exists()) {
+                               OverviewActivity.chargeName.add((String) charge.child("name").getValue());
+                               OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
+                               HashMap<String, String> transaction = new HashMap<>();
+                               for (DataSnapshot information : charge.child("transaction").getChildren()) {
+                                   if (!information.getKey().equals(currentUserId))
+                                       transaction.put((String) information.getKey(), (String) information.getValue());
+                               }
+                               OverviewActivity.everyCharge.add(transaction);
+                           }
+                        }
                     }
 
                     @Override
