@@ -44,6 +44,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         });
     }
 
+
     public void facebookLogin() {
         showFirebaseLoginPrompt();
     }
