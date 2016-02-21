@@ -54,32 +54,32 @@ public class TripActivity extends Activity {
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_2, android.R.id.text1, TripActivity.currentUser.getTripNames());
         listView.setAdapter(adapter);
-//        // ListView Item Click Listener
-//        listView.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//                // ListView Clicked item index
-//                int itemPosition     = position;
-//                // ListView Clicked item value
-//                String  itemValue    = (String) listView.getItemAtPosition(position);
-//                // Show Alert
-//                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
-//                currentTrip = currentUser.getTrips().get(itemPosition);
-//                String currentTripId = currentTrip.getId();
-//                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot snapshot) {
-//                        boolean credit = false;
-//                        OverviewActivity.chargeName.clear();
-//                        OverviewActivity.chargeValue.clear();
-//                        OverviewActivity.peopleAtTrip.clear();
-//
-////                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
-////                            Person addingPerson = new Person(person.getValue());
-////                            peopleAtTrip.add(addingPerson);
-////                        }
-//
+        // ListView Item Click Listener
+        listView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // ListView Clicked item index
+                int itemPosition     = position;
+                // ListView Clicked item value
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+                // Show Alert
+                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
+                currentTrip = currentUser.getTrips().get(itemPosition);
+                String currentTripId = currentTrip.getId();
+                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        boolean credit = false;
+                        OverviewActivity.chargeName.clear();
+                        OverviewActivity.chargeValue.clear();
+                        OverviewActivity.peopleAtTrip.clear();
+
+//                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
+//                            Person addingPerson = new Person(person.getValue());
+//                            peopleAtTrip.add(addingPerson);
+//                        }
+
 //                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
 //                            if (charge.child("transaction").child(currentUserId).exists()) {
 //                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
@@ -92,25 +92,25 @@ public class TripActivity extends Activity {
 //                                OverviewActivity.everyCharge.add(transaction);
 //                            }
 //                        }
-//                    }
-//
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError error) {
+                    }
+                });
+
+//                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
 //                    @Override
-//                    public void onCancelled(FirebaseError error) {
+//                    public void onDataChange(DataSnapshot snapshot) {
+//                        for (DataSnapshot person : snapshot.getChildren()) {
+//
+//                        }
 //                    }
 //                });
-//
-////                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
-////                    @Override
-////                    public void onDataChange(DataSnapshot snapshot) {
-////                        for (DataSnapshot person : snapshot.getChildren()) {
-////
-////                        }
-////                    }
-////                });
-//
-//                startActivity(i);
-//            }
-//        });
+
+                startActivity(i);
+            }
+        });
     }
 
 }
