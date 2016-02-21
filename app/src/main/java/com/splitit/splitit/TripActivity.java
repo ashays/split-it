@@ -39,6 +39,7 @@ public class TripActivity extends Activity {
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
         final Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/");
+        final Firebase tripsRef2 = new Firebase("https://split-it.firebaseio.com/");
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         // Defined Array values to show in ListView
@@ -72,46 +73,47 @@ public class TripActivity extends Activity {
                 currentTrip = trips.get(itemPosition);
 
                 String currentTripId = currentTrip.getId();
+                final String currentUserId = currentUser.getId();
                 tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         boolean credit = false;
                         OverviewActivity.chargeName.clear();
                         OverviewActivity.chargeValue.clear();
+                        OverviewActivity.peopleAtTrip.clear();
 
+                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
+                            Person addingPerson = new Person(person.getValue());
+                            peopleAtTrip.add(addingPerson);
+                        }
                         
                         for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
-                            if (charge.child("transaction").child("bob").exists()) {
+                            if (charge.child("transaction").child(currentUserId).exists()) {
                                 OverviewActivity.chargeName.add((String) charge.child("name").getValue());
-                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child("bob").getValue());
+                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
                                 HashMap<String, String> transaction = new HashMap<>();
                                 for (DataSnapshot information : charge.child("transaction").getChildren()) {
-                                    if (!information.getKey().equals("bob"))
+                                    if (!information.getKey().equals(currentUserId))
                                         transaction.put((String) information.getKey(), (String) information.getValue());
                                 }
                                 OverviewActivity.everyCharge.add(transaction);
                             }
                         }
                     }
-                    /*@Override
-                    public void onChildRemoved(DataSnapshot snapshot) {
-                        System.out.println("hi");
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
-                        System.out.println("Double hi");
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
-                        System.out.println("Leave me alone");
-                    }*/
 
                     @Override
                     public void onCancelled(FirebaseError error) {
                     }
                 });
+                
+                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for (DataSnapshot person : snapshot.getChildren()) {
+                            
+                        }
+                    }
+                })
 
                 startActivity(i);
             }

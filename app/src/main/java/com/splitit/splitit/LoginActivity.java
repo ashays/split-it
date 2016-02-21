@@ -24,6 +24,8 @@ import com.firebase.ui.auth.core.AuthProviderType;
 import com.firebase.ui.auth.core.FirebaseLoginBaseActivity;
 import com.firebase.ui.auth.core.FirebaseLoginError;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -83,7 +85,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
     }
 
     @Override
-    public void onFirebaseLoggedIn(AuthData authData) {
+    public void onFirebaseLoggedIn(final AuthData authData) {
         if (isStart) {
             return;
         }
@@ -94,6 +96,10 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         Firebase fb = getFirebaseRef();
         final Firebase tripsRef = fb.child("trips");
         System.out.println("hello");
+        final Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
+        Firebase userRef = firebaseRef.child("users");
+        System.out.println("hi friends");
+        final Firebase userTable = firebaseRef.child("users").child(uid);
         tripsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -105,7 +111,12 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                     newTrip.setId(postSnapshot.getKey());
                     TripActivity.currentUser.addTrip(newTrip);
                 }
+                Firebase userRef = firebaseRef.child("users");
+                String uid = authData.getUid();
                 isStart = true;
+                HashMap<String, Person> toPush = new HashMap<String, Person>();
+                toPush.put(uid, TripActivity.currentUser);
+                userRef.setValue(toPush);
                 System.out.println("There are " + TripActivity.currentUser.getTrips() + "in arraylist.");
                 Intent i = new Intent(LoginActivity.this, TripActivity.class);
                 startActivity(i);
