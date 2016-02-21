@@ -14,6 +14,8 @@ import com.facebook.FacebookSdk;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                             TripActivity.currentUser.addTrip(newTrip);
                         }
                         Intent i = new Intent(LoginActivity.this, TripActivity.class);
+                        Map<String, Object> pd = authData
                         startActivity(i);
                     }
                     @Override
