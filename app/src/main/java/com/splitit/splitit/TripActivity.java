@@ -26,7 +26,15 @@ public class TripActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
-        refreshTrips();
+        if (currentUser.getTrips().size() > 0) {
+            refreshTrips();
+        } else {
+            String[] empty = {"You don't have any trips! Add one to get started!"};
+            listView = (ListView) findViewById(R.id.list);
+            adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_2, android.R.id.text1, empty);
+            listView.setAdapter(adapter);
+        }
     }
 
     public void newTrip(View view) {
