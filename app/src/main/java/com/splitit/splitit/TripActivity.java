@@ -1,10 +1,5 @@
 package com.splitit.splitit;
-
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.app.Activity;
 import android.widget.ListView;
@@ -12,12 +7,7 @@ import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import java.util.ArrayList;
-import android.widget.Toast;
 import android.content.Intent;
-
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -38,6 +28,20 @@ public class TripActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
+        refreshTrips();
+    }
+
+    public void newTrip(View view) {
+        Intent i = new Intent(TripActivity.this, AddTripActivity.class);
+        startActivity(i);
+    }
+
+    public void refreshTrips(View view) {
+        refreshTrips();
+    }
+
+    public void refreshTrips() {
+        System.out.println("Refreshing trips");
         final Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/");
         final Firebase tripsRef2 = new Firebase("https://split-it.firebaseio.com/");
         // Get ListView object from xml
@@ -60,69 +64,64 @@ public class TripActivity extends Activity {
         // Assign adapter to ListView
         listView.setAdapter(adapter);
         // ListView Item Click Listener
-        listView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // ListView Clicked item index
-                int itemPosition     = position;
-                // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
-                // Show Alert
-                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
-                currentTrip = trips.get(itemPosition);
-
-                String currentTripId = currentTrip.getId();
-                final String currentUserId = currentUser.getId();
-                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        boolean credit = false;
-                        OverviewActivity.chargeName.clear();
-                        OverviewActivity.chargeValue.clear();
-                        OverviewActivity.peopleAtTrip.clear();
-
-//                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
-//                            Person addingPerson = new Person(person.getValue());
-//                            peopleAtTrip.add(addingPerson);
-//                        }
-                        
-                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
-                            if (charge.child("transaction").child(currentUserId).exists()) {
-                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
-                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
-                                HashMap<String, String> transaction = new HashMap<>();
-                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
-                                    if (!information.getKey().equals(currentUserId))
-                                        transaction.put((String) information.getKey(), (String) information.getValue());
-                                }
-                                OverviewActivity.everyCharge.add(transaction);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError error) {
-                    }
-                });
-                
-//                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
+//        listView.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                // ListView Clicked item index
+//                int itemPosition     = position;
+//                // ListView Clicked item value
+//                String  itemValue    = (String) listView.getItemAtPosition(position);
+//                // Show Alert
+//                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
+//                currentTrip = trips.get(itemPosition);
+//
+//                String currentTripId = currentTrip.getId();
+//                final String currentUserId = currentUser.getId();
+//                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(DataSnapshot snapshot) {
-//                        for (DataSnapshot person : snapshot.getChildren()) {
+//                        boolean credit = false;
+//                        OverviewActivity.chargeName.clear();
+//                        OverviewActivity.chargeValue.clear();
+//                        OverviewActivity.peopleAtTrip.clear();
 //
+////                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
+////                            Person addingPerson = new Person(person.getValue());
+////                            peopleAtTrip.add(addingPerson);
+////                        }
+//
+//                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
+//                            if (charge.child("transaction").child(currentUserId).exists()) {
+//                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
+//                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
+//                                HashMap<String, String> transaction = new HashMap<>();
+//                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
+//                                    if (!information.getKey().equals(currentUserId))
+//                                        transaction.put((String) information.getKey(), (String) information.getValue());
+//                                }
+//                                OverviewActivity.everyCharge.add(transaction);
+//                            }
 //                        }
 //                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError error) {
+//                    }
 //                });
-
-                startActivity(i);
-            }
-        });
-    }
-
-    public void newTrip(View view) {
-        Intent i = new Intent(TripActivity.this, AddTripActivity.class);
-        startActivity(i);
+//
+////                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
+////                    @Override
+////                    public void onDataChange(DataSnapshot snapshot) {
+////                        for (DataSnapshot person : snapshot.getChildren()) {
+////
+////                        }
+////                    }
+////                });
+//
+//                startActivity(i);
+//            }
+//        });
     }
 
 }

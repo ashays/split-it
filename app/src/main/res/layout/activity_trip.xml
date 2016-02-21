@@ -19,11 +19,18 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_height="0dp"
+        android:layout_height="10dp"
         android:layout_width="wrap_content"
         android:layout_weight="0.99">
     </ListView>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh Trips"
+        android:onClick="refreshTrips"
+        android:id="@+id/refreshBtn"
+        android:layout_gravity="center_horizontal|bottom" />
 
 
     <Button
@@ -32,6 +39,6 @@
         android:text="@string/addnewtrip"
         android:onClick="newTrip"
         android:id="@+id/button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal|bottom" />
 
 </TableLayout>

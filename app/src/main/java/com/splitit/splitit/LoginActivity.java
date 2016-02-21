@@ -25,6 +25,7 @@ import com.firebase.ui.auth.core.FirebaseLoginBaseActivity;
 import com.firebase.ui.auth.core.FirebaseLoginError;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,22 +96,47 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         TripActivity.currentUser = new Person(pieces[0], pieces[1], uid.toString());
         System.out.println(TripActivity.currentUser.getFirstName() + " " + TripActivity.currentUser.getLastName());
         Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-//        Firebase userRef = firebaseRef.child("users");
-        // final Firebase userTable = firebaseRef.child("users").child(uid);
-
-
         Firebase userRef = firebaseRef.child("users").child(uid);
         userRef.child("firstName").setValue(TripActivity.currentUser.getFirstName());
         userRef.child("lastName").setValue(TripActivity.currentUser.getLastName());
-//        userRef.setValue(TripActivity.currentUser);
         isStart = true;
+        userRef.child("trips").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot trip : snapshot.getChildren()) {
+                    String theTripID = (String) trip.getValue();
+                    System.out.println("Trip ID: " + theTripID);
+                    // TripActivity.currentUser.addTrip(new Trip(theTripID));
+                    Firebase tripRefTemp = new Firebase("https://split-it.firebaseio.com/").child("trips").child(theTripID);
+                    tripRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue()));
+                            //TripActivity.listValues = Arrays.copyOf(TripActivity.listValues, TripActivity.listValues.length + 1);
+                            //TripActivity.listValues[TripActivity.listValues.length - 1] = (String) snapshot.child("name").getValue();
+                            //TripActivity.adapter.notifyDataSetChanged();
+                            System.out.println("Trip Snapshot: " + snapshot.child("name").getValue());
+                            //TripActivity.refreshTrips();
+                            // System.out.println(snapshot.getValue());
+                            //System.out.println(snapshot.getValue(Trip.class));
+                        }
 
-//        HashMap<String, Person> toPush = new HashMap<String, Person>();
-//        toPush.put(uid, TripActivity.currentUser);
-//        userRef.setValue(toPush);
-        System.out.println("There are " + TripActivity.currentUser.getTrips() + "in arraylist.");
-        Intent i = new Intent(LoginActivity.this, TripActivity.class);
-        startActivity(i);
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            System.out.println("There was an error getting the user's trips (one of them at least");
+                        }
+                    });
+                }
+                System.out.println("There are " + TripActivity.currentUser.getTrips() + " in arraylist.");
+                Intent i = new Intent(LoginActivity.this, TripActivity.class);
+                startActivity(i);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                System.out.println("There was an error getting the user");
+            }
+        });
     }
 
     @Override
