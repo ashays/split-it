@@ -55,4 +55,14 @@ public class Person {
         this.trips.add(trip);
     }
 
+    public String[] getTripNames() {
+        String[] tripNames = new String[trips.size()];
+        int i = 0;
+        for (Trip t : trips) {
+            tripNames[i] = t.getTripName();
+            i++;
+        }
+        return tripNames;
+    }
+
 }

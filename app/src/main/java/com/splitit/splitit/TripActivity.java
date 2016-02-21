@@ -16,10 +16,8 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 
 public class TripActivity extends Activity {
-    public static ArrayList<Trip> trips = new ArrayList<Trip>();
     ListView listView;
     public static Trip currentTrip;
-    public static String[] listValues;
     public static ArrayAdapter<String> adapter;
     public static Person currentUser;
 
@@ -44,24 +42,9 @@ public class TripActivity extends Activity {
         System.out.println("Refreshing trips");
         final Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/");
         final Firebase tripsRef2 = new Firebase("https://split-it.firebaseio.com/");
-        // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-        // Defined Array values to show in ListView
-        trips = currentUser.getTrips();
-        listValues = new String[trips.size()];
-        int i = 0;
-        for (Trip t : trips) {
-            listValues[i] = t.getTripName();
-            i++;
-        }
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_2, android.R.id.text1, listValues);
-        // Assign adapter to ListView
+                android.R.layout.simple_list_item_2, android.R.id.text1, TripActivity.currentUser.getTripNames());
         listView.setAdapter(adapter);
         // ListView Item Click Listener
 //        listView.setOnItemClickListener(new OnItemClickListener() {

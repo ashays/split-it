@@ -30,16 +30,16 @@ public class AddTripActivity extends AppCompatActivity {
         String[] people = {TripActivity.currentUser.getID()};
         Trip newTrip = new Trip(tripName.getText().toString());
         TripActivity.currentUser.addTrip(newTrip);
-        System.out.println("-------" + TripActivity.currentUser.getTrips().size() + "--------");
-        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-        Firebase tripsRef = firebaseRef.child("trips");
+        Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/").child("trips");
         Map<String, String> tripNew = new HashMap<String, String>();
         tripNew.put("name", tripName.getText().toString());
         //Need to add people allowed in trip
         //tripNew.put("person", people);
         Firebase newTripRef = tripsRef.push();
         newTripRef.setValue(tripNew);
+        // Add trip ID to current User t
         Firebase userToAdd = new Firebase("https://split-it.firebaseio.com/").child("users").child(TripActivity.currentUser.getID());
+        //String[] allUserTrips = userToAdd.child("trips");
         userToAdd.child("trips").push().setValue(newTripRef.getKey());
 
         Intent i = new Intent(AddTripActivity.this, TripActivity.class);

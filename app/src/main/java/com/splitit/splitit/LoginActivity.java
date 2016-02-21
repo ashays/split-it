@@ -100,7 +100,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         userRef.child("firstName").setValue(TripActivity.currentUser.getFirstName());
         userRef.child("lastName").setValue(TripActivity.currentUser.getLastName());
         isStart = true;
-        userRef.child("trips").addValueEventListener(new ValueEventListener() {
+        userRef.child("trips").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot trip : snapshot.getChildren()) {
