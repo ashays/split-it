@@ -26,7 +26,8 @@ public class TripActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
-        if (currentUser.getTrips().size() > 0) {
+        System.out.println("------" + TripActivity.currentUser.getId());
+        if (TripActivity.currentUser.getTrips().size() > 0) {
             refreshTrips();
         } else {
             String[] empty = {"You don't have any trips! Add one to get started!"};

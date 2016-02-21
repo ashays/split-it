@@ -104,6 +104,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot trip : snapshot.getChildren()) {
+
                     String theTripID = (String) trip.getValue();
                     System.out.println("Trip ID: " + theTripID);
                     // TripActivity.currentUser.addTrip(new Trip(theTripID));
@@ -111,7 +112,10 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                     tripRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                            TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue(), snapshot.getKey()));
+                            if (snapshot.child("name").getValue() != null) {
+                                TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue(), snapshot.getKey()));
+                            }
+                            //TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue(), snapshot.getKey()));
                             //TripActivity.listValues = Arrays.copyOf(TripActivity.listValues, TripActivity.listValues.length + 1);
                             //TripActivity.listValues[TripActivity.listValues.length - 1] = (String) snapshot.child("name").getValue();
                             //TripActivity.adapter.notifyDataSetChanged();
