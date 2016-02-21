@@ -52,4 +52,5 @@ public class Person {
     public void addTrip(Trip trip) {
         this.trips.add(trip);
     }
+
 }
