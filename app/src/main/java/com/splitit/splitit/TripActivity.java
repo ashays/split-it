@@ -80,6 +80,12 @@ public class TripActivity extends Activity {
                             if (charge.child("transaction").child("bob").exists()) {
                                 OverviewActivity.chargeName.add((String) charge.child("name").getValue());
                                 OverviewActivity.chargeValue.add((String) charge.child("transaction").child("bob").getValue());
+                                HashMap<String, String> transaction = new HashMap<>();
+                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
+                                    if (!information.getKey().equals("bob"))
+                                        transaction.put((String) information.getKey(), (String) information.getValue());
+                                }
+                                OverviewActivity.everyCharge.add(transaction);
                             }
                         }
                     }
