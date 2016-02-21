@@ -111,7 +111,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                     tripRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                            TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue()));
+                            TripActivity.currentUser.addTrip(new Trip((String) snapshot.child("name").getValue(), snapshot.getKey()));
                             //TripActivity.listValues = Arrays.copyOf(TripActivity.listValues, TripActivity.listValues.length + 1);
                             //TripActivity.listValues[TripActivity.listValues.length - 1] = (String) snapshot.child("name").getValue();
                             //TripActivity.adapter.notifyDataSetChanged();

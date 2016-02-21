@@ -54,7 +54,7 @@ public class TripActivity extends Activity {
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_2, android.R.id.text1, TripActivity.currentUser.getTripNames());
         listView.setAdapter(adapter);
-        // ListView Item Click Listener
+//        // ListView Item Click Listener
 //        listView.setOnItemClickListener(new OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view,
@@ -65,10 +65,8 @@ public class TripActivity extends Activity {
 //                String  itemValue    = (String) listView.getItemAtPosition(position);
 //                // Show Alert
 //                Intent i = new Intent(TripActivity.this, OverviewActivity.class);
-//                currentTrip = trips.get(itemPosition);
-//
+//                currentTrip = currentUser.getTrips().get(itemPosition);
 //                String currentTripId = currentTrip.getId();
-//                final String currentUserId = currentUser.getId();
 //                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
 //                    @Override
 //                    public void onDataChange(DataSnapshot snapshot) {

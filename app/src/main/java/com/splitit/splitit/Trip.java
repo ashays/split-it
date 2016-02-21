@@ -17,8 +17,9 @@ public class Trip {
     private String id;
     private HashMap<Person, Integer> charges;
 
-    public Trip(String tripName) {
+    public Trip(String tripName, String tripID) {
         this.tripName = tripName;
+        this.id = tripID;
     }
 
     public void addPerson(Person person) {
