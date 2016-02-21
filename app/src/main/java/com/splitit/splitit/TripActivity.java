@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.app.Activity;
 import android.widget.ListView;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
@@ -27,7 +29,7 @@ public class TripActivity extends Activity {
     public static ArrayList<Trip> trips = new ArrayList<Trip>();
     ListView listView;
     public static Trip currentTrip;
-    public static String[] listValues;
+    public static ArrayList<String> listValues;
     public static ArrayAdapter<String> adapter;
     public static Person currentUser;
 
@@ -40,13 +42,16 @@ public class TripActivity extends Activity {
         Firebase tripsRef = firebaseRef.child("trips");
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
+        System.out.println("Got to Trip!!");
         // Defined Array values to show in ListView
         trips = currentUser.getTrips();
-        listValues = new String[trips.size()];
+        listValues = new ArrayList<String>();
         int i = 0;
         for (Trip t : trips) {
-            listValues[i] = t.getTripName();
-            i++;
+            System.out.println(t.getTripName());
+            String lebron = t.getTripName();
+            System.out.println(listValues);
+            listValues.add(lebron);
         }
         // Define a new Adapter
         // First parameter - Context
