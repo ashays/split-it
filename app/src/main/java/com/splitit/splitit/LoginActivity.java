@@ -104,10 +104,13 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                 tripsRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
+                        TripActivity.currentUser.getTrips().clear();
                         System.out.println("There are " + snapshot.getChildrenCount() + " trips");
                         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                             String tripName = (String) postSnapshot.child("name").getValue();
-                            TripActivity.currentUser.addTrip(new Trip(tripName));
+                            Trip newTrip = new Trip(tripName);
+                            newTrip.setId(postSnapshot.getKey());
+                            TripActivity.currentUser.addTrip(newTrip);
                         }
                         Intent i = new Intent(LoginActivity.this, TripActivity.class);
                         startActivity(i);
