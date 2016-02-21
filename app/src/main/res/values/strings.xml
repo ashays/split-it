@@ -4,4 +4,5 @@
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="facebook_app_id">1684004951853736</string>
     <string name="title_activity_login">Split It</string>
+    <string name="addnewtrip">Add New Trip</string>
 </resources>
