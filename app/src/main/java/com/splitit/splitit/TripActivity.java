@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
