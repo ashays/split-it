@@ -76,6 +76,8 @@ public class TripActivity extends Activity {
                         boolean credit = false;
                         OverviewActivity.chargeName.clear();
                         OverviewActivity.chargeValue.clear();
+
+                        
                         for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
                             if (charge.child("transaction").child("bob").exists()) {
                                 OverviewActivity.chargeName.add((String) charge.child("name").getValue());
