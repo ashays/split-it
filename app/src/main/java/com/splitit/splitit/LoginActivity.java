@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
+import java.lang.String;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
@@ -23,6 +23,8 @@ import com.firebase.client.ValueEventListener;
 import com.firebase.ui.auth.core.AuthProviderType;
 import com.firebase.ui.auth.core.FirebaseLoginBaseActivity;
 import com.firebase.ui.auth.core.FirebaseLoginError;
+
+import java.util.Map;
 
 
 public class LoginActivity extends FirebaseLoginBaseActivity {
@@ -83,9 +85,13 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
 
     @Override
     public void onFirebaseLoggedIn(AuthData authData) {
-        //Intent i = new Intent(LoginActivity.this, TripActivity.class);
-        //startActivity(i);
-        /**
+        Intent i = new Intent(LoginActivity.this, TripActivity.class);
+        TripActivity.uid = authData.getUid();
+        Map<String, Object> pd = authData.getProviderData();
+        String[] pieces = ((String)pd.get("displayName")).split(" ");;
+        TripActivity.currentUser = new Person(pieces[0], pieces[1], TripActivity.uid.toString());
+        startActivity(i);
+        /*
         Firebase fb = getFirebaseRef();
         final Firebase tripsRef = fb.child("trips");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -113,7 +119,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                 });
             }
         });
-         **/
+         */
 
     }
 
@@ -122,5 +128,6 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         //Intent i = new Intent(LoginActivity.this, TripActivity.class);
         //startActivity(i);
     }
+
 
 }

@@ -30,6 +30,7 @@ public class TripActivity extends Activity {
     public static String[] listValues;
     public static ArrayAdapter<String> adapter;
     public static Person currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,6 @@ public class TripActivity extends Activity {
         listView = (ListView) findViewById(R.id.list);
         // Defined Array values to show in ListView
         trips = currentUser.getTrips();
-        System.out.println(trips.size());
         listValues = new String[trips.size()];
         int i = 0;
         for (Trip t : trips) {
