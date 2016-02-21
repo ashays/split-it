@@ -82,10 +82,10 @@ public class TripActivity extends Activity {
                         OverviewActivity.chargeValue.clear();
                         OverviewActivity.peopleAtTrip.clear();
 
-                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
-                            Person addingPerson = new Person(person.getValue());
-                            peopleAtTrip.add(addingPerson);
-                        }
+//                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
+//                            Person addingPerson = new Person(person.getValue());
+//                            peopleAtTrip.add(addingPerson);
+//                        }
                         
                         for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
                             if (charge.child("transaction").child(currentUserId).exists()) {
@@ -106,14 +106,14 @@ public class TripActivity extends Activity {
                     }
                 });
                 
-                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot person : snapshot.getChildren()) {
-                            
-                        }
-                    }
-                })
+//                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot snapshot) {
+//                        for (DataSnapshot person : snapshot.getChildren()) {
+//
+//                        }
+//                    }
+//                });
 
                 startActivity(i);
             }

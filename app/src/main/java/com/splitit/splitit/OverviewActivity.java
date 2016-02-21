@@ -34,7 +34,7 @@ public class OverviewActivity extends AppCompatActivity {
     public static ArrayList<String> chargeName = new ArrayList<>();
     public static ArrayList<String> chargeValue = new ArrayList<>();
     public static ArrayList<HashMap<String, String>> everyCharge = new ArrayList<>();
-    public static ArrayList<People> peopleAtTrip = new ArrayList<>();
+    public static ArrayList<Person> peopleAtTrip = new ArrayList<>();
     private String[] chargePerson = {"Crishna", "ashay", "Eric"};
     private ArrayList<String> tripIds = new ArrayList<>();
     private String currentLoginId;
