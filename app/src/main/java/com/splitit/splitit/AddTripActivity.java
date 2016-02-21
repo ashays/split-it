@@ -20,10 +20,7 @@ public class AddTripActivity extends AppCompatActivity {
         EditText tripName = (EditText) findViewById(R.id.tripName);
         EditText tripPlace = (EditText) findViewById(R.id.tripPlace);
         EditText creator = (EditText) findViewById(R.id.creator);
-        tripName.setText("Trip Name");
-        tripPlace.setText("Trip Place");
-        creator.setText("Creator");
-
+        
     }
 
     public void createTrip(View view) {
