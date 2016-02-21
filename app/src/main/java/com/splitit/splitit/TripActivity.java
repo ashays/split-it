@@ -64,6 +64,7 @@ public class TripActivity extends Activity {
                 // ListView Clicked item value
                 String  itemValue    = (String) listView.getItemAtPosition(position);
                 // Show Alert
+                System.out.println("Reached here");
                 Intent i = new Intent(TripActivity.this, OverviewActivity.class);
                 currentTrip = currentUser.getTrips().get(itemPosition);
                 String currentTripId = currentTrip.getId();
@@ -75,35 +76,44 @@ public class TripActivity extends Activity {
                         OverviewActivity.chargeValue.clear();
                         OverviewActivity.peopleAtTrip.clear();
 
-                        for(DataSnapshot person : snapshot.child("people").getChildren()) {
-                            Person addingPerson = new Person(person.getValue());
-                            Firebase userRefTemp = new Firebase("https://split-it.firebaseio.com/").child("users").child(person.getValue());
-                                userRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                        for (final DataSnapshot person : snapshot.child("people").getChildren()) {
+                            Firebase userRefTemp = new Firebase("https://split-it.firebaseio.com/").child("users").child((String) person.getValue());
+                            userRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
-                                    addingPerson.setName(snapshot.child("firstName").getValue(), snapshot.child("lastName").getValue());
-                                    peopleAtTrip.add(addingPerson);
+                                    Person addingPerson = new Person((String) person.getValue());
+                                    addingPerson.setName((String) snapshot.child("firstName").getValue(),
+                                            (String) snapshot.child("lastName").getValue());
+                                    OverviewActivity.peopleAtTrip.add(addingPerson);
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError error) {
+                                    //
                                 }
                             });
-
-
-                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
-                           if (charge.child("transaction").child(currentUserId).exists()) {
-                               OverviewActivity.chargeName.add((String) charge.child("name").getValue());
-                               OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
-                               HashMap<String, String> transaction = new HashMap<>();
-                               for (DataSnapshot information : charge.child("transaction").getChildren()) {
-                                   if (!information.getKey().equals(currentUserId))
-                                       transaction.put((String) information.getKey(), (String) information.getValue());
-                               }
-                               OverviewActivity.everyCharge.add(transaction);
-                           }
                         }
+
+                        String currentUserId = currentUser.getId();
+                        for (DataSnapshot charge : snapshot.child("charges").getChildren()) {
+                            if (charge.child("transaction").child(currentUserId).exists()) {
+                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
+                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child(currentUserId).getValue());
+                                HashMap<String, String> transaction = new HashMap<>();
+                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
+                                    if (!information.getKey().equals(currentUserId))
+                                        transaction.put((String) information.getKey(), (String) information.getValue());
+                                }
+                                OverviewActivity.everyCharge.add(transaction);
+                            }
+                        }
+                        
+                    }
+                    @Override
+                    public void onCancelled (FirebaseError error) {
+                        //go
                     }
 
-                    @Override
-                    public void onCancelled(FirebaseError error) {
-                    }
                 });
 
 //                tripsRef2.child("users").addValueEventListener(new ValueEventListener() {
@@ -115,9 +125,9 @@ public class TripActivity extends Activity {
 //                    }
 //                });
 
-                startActivity(i);
-            }
-        });
+                    startActivity(i);
+                }
+            });
     }
 
 }
