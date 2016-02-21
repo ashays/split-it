@@ -46,8 +46,8 @@ public class OverviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://split-it.firebaseio.com/");
         final Firebase ref2 = new Firebase("https://split-it.firebaseio.com/");

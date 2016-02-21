@@ -20,17 +20,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="134dp" />
 
-    <ListView
-        android:id="@+id/charges_totalPositive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#00FF00"
-        android:layout_alignParentBottom="true"/>
 
-    <ListView
-        android:id="@+id/charges_totalNegative"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
