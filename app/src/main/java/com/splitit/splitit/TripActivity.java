@@ -38,8 +38,7 @@ public class TripActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
         Firebase.setAndroidContext(this);
-        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-        Firebase tripsRef = firebaseRef.child("trips");
+        final Firebase tripsRef = new Firebase("https://split-it.firebaseio.com/");
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         System.out.println("Got to Trip!!");
@@ -74,6 +73,47 @@ public class TripActivity extends Activity {
                 // Show Alert
                 Intent i = new Intent(TripActivity.this, OverviewActivity.class);
                 currentTrip = trips.get(itemPosition);
+
+                String currentTripId = currentTrip.getId();
+                tripsRef.child("trips").child(currentTripId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        boolean credit = false;
+                        OverviewActivity.chargeName.clear();
+                        OverviewActivity.chargeValue.clear();
+                        for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
+                            if (charge.child("transaction").child("bob").exists()) {
+                                OverviewActivity.chargeName.add((String) charge.child("name").getValue());
+                                OverviewActivity.chargeValue.add((String) charge.child("transaction").child("bob").getValue());
+                                HashMap<String, String> transaction = new HashMap<>();
+                                for (DataSnapshot information : charge.child("transaction").getChildren()) {
+                                    if (!information.getKey().equals("bob"))
+                                        transaction.put((String) information.getKey(), (String) information.getValue());
+                                }
+                                OverviewActivity.everyCharge.add(transaction);
+                            }
+                        }
+                    }
+                    /*@Override
+                    public void onChildRemoved(DataSnapshot snapshot) {
+                        System.out.println("hi");
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
+                        System.out.println("Double hi");
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                        System.out.println("Leave me alone");
+                    }*/
+
+                    @Override
+                    public void onCancelled(FirebaseError error) {
+                    }
+                });
+
                 startActivity(i);
             }
         });

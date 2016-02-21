@@ -48,6 +48,13 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         });
     }
 
+<<<<<<< HEAD
+=======
+
+    public void facebookLogin() {
+        showFirebaseLoginPrompt();
+    }
+>>>>>>> origin/Login-Feature
     @Override
     protected void onStart() {
         super.onStart();
@@ -96,6 +103,7 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         System.out.println("hello");
         tripsRef.addValueEventListener(new ValueEventListener() {
             @Override
+<<<<<<< HEAD
             public void onDataChange(DataSnapshot snapshot) {
                 TripActivity.currentUser.getTrips().clear();
                 System.out.println("There are " + snapshot.getChildrenCount() + " trips");
@@ -110,6 +118,31 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
                 isStart = true;
                 System.out.println("There are " + TripActivity.currentUser.getTrips() + "in arraylist.");
                 startActivity(i);
+=======
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                TripActivity.currentUser = new Person("Crishna", "Iyengar", "903");
+                tripsRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        TripActivity.currentUser.getTrips().clear();
+                        System.out.println("There are " + snapshot.getChildrenCount() + " trips");
+                        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                            String tripName = (String) postSnapshot.child("name").getValue();
+                            Trip newTrip = new Trip(tripName);
+                            newTrip.setId(postSnapshot.getKey());
+                            TripActivity.currentUser.addTrip(newTrip);
+                        }
+                        Intent i = new Intent(LoginActivity.this, TripActivity.class);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("The read failed: " + firebaseError.getMessage());
+                    }
+                });
+>>>>>>> origin/Login-Feature
             }
 
             @Override
