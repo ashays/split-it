@@ -26,11 +26,15 @@ public class AddChargeActivity extends AppCompatActivity {
         EditText chargeAmount = (EditText) findViewById(R.id.chargeAmount);
         System.out.println(chargeName.getText().toString() + " " + chargeAmount.getText().toString());
         System.out.println(TripActivity.currentUser.getID());
-//        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-//        Firebase tripsRef = firebaseRef.child("trips");
-//        Map<String, String> tripNew = new HashMap<String, String>();
-//        tripNew.put("name", tripName.getText().toString());
-//        tripsRef.push().setValue(tripNew);
+        Firebase chargesRef = new Firebase("https://split-it.firebaseio.com/").child("trips").child(TripActivity.currentTrip.getId()).child("charges");
+        Firebase newChargeRef = chargesRef.push();
+        Map<String, String> newCharge = new HashMap<String, String>();
+        newCharge.put("name", chargeName.getText().toString());
+        newChargeRef.setValue(newCharge);
+        Firebase transactionsRef = new Firebase("https://split-it.firebaseio.com/").child("trips").child(TripActivity.currentTrip.getId()).child("charges").child(newChargeRef.getKey()).child("transaction");
+        Map<String, String> transactions = new HashMap<String, String>();
+        transactions.put(TripActivity.currentUser.getID(), chargeAmount.getText().toString());
+        transactionsRef.setValue(transactions);
         Intent i = new Intent(AddChargeActivity.this, OverviewActivity.class);
         startActivity(i);
     }
