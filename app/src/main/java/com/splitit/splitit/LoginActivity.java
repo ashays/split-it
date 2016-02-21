@@ -93,41 +93,26 @@ public class LoginActivity extends FirebaseLoginBaseActivity {
         Map<String, Object> pd = authData.getProviderData();
         String[] pieces = ((String)pd.get("displayName")).split(" ");;
         TripActivity.currentUser = new Person(pieces[0], pieces[1], uid.toString());
-        Firebase fb = getFirebaseRef();
-        final Firebase tripsRef = fb.child("trips");
-        System.out.println("hello");
-        final Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
-        Firebase userRef = firebaseRef.child("users");
-        System.out.println("hi friends");
-        final Firebase userTable = firebaseRef.child("users").child(uid);
-        tripsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                TripActivity.currentUser.getTrips().clear();
-                System.out.println("There are " + snapshot.getChildrenCount() + " trips");
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    String tripName = (String) postSnapshot.child("name").getValue();
-                    Trip newTrip = new Trip(tripName);
-                    newTrip.setId(postSnapshot.getKey());
-                    TripActivity.currentUser.addTrip(newTrip);
-                }
-                Firebase userRef = firebaseRef.child("users");
-                String uid = authData.getUid();
-                isStart = true;
-                HashMap<String, Person> toPush = new HashMap<String, Person>();
-                toPush.put(uid, TripActivity.currentUser);
-                userRef.setValue(toPush);
-                System.out.println("There are " + TripActivity.currentUser.getTrips() + "in arraylist.");
-                Intent i = new Intent(LoginActivity.this, TripActivity.class);
-                startActivity(i);
-            }
+        System.out.println(TripActivity.currentUser.getFirstName() + " " + TripActivity.currentUser.getLastName());
+        Firebase firebaseRef = new Firebase("https://split-it.firebaseio.com/");
+//        Firebase userRef = firebaseRef.child("users");
+        // final Firebase userTable = firebaseRef.child("users").child(uid);
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
+
+        Firebase userRef = firebaseRef.child("users").child(uid);
+        userRef.child("firstName").setValue(TripActivity.currentUser.getFirstName());
+        userRef.child("lastName").setValue(TripActivity.currentUser.getLastName());
+//        userRef.setValue(TripActivity.currentUser);
+        isStart = true;
+
+//        HashMap<String, Person> toPush = new HashMap<String, Person>();
+//        toPush.put(uid, TripActivity.currentUser);
+//        userRef.setValue(toPush);
+        System.out.println("There are " + TripActivity.currentUser.getTrips() + "in arraylist.");
+        Intent i = new Intent(LoginActivity.this, TripActivity.class);
+        startActivity(i);
     }
+
     @Override
     public void onFirebaseLoggedOut() {
         //Intent i = new Intent(LoginActivity.this, TripActivity.class);
