@@ -40,7 +40,7 @@ public class TripActivity extends Activity {
         listView = (ListView) findViewById(R.id.list);
         // Defined Array values to show in ListView
         trips = currentUser.getTrips();
-        System.out.println(trips.size());
+        System.out.println("LOOK HERE" + trips.size());
         listValues = new String[trips.size()];
         int i = 0;
         for (Trip t : trips) {
@@ -74,10 +74,10 @@ public class TripActivity extends Activity {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         boolean credit = false;
+                        OverviewActivity.chargeName.clear();
+                        OverviewActivity.chargeValue.clear();
                         for (DataSnapshot charge: snapshot.child("charges").getChildren()) {
-                            System.out.println("LOOK HERE" + charge.child("transaction").child("bob").exists());
                             if (charge.child("transaction").child("bob").exists()) {
-                                System.out.println("HERE ALSO" + charge.child("name").getValue());
                                 OverviewActivity.chargeName.add((String) charge.child("name").getValue());
                                 OverviewActivity.chargeValue.add((String) charge.child("transaction").child("bob").getValue());
                             }

@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 tripsRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
+                        TripActivity.currentUser.getTrips().clear();
                         System.out.println("There are " + snapshot.getChildrenCount() + " trips");
                         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                             System.out.println("hihi");
