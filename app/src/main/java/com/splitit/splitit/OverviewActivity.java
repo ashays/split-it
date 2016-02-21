@@ -27,10 +27,10 @@ import java.util.HashMap;
 
 public class OverviewActivity extends AppCompatActivity {
 
-    private ListView chargeList;
-    private ArrayList<HashMap<String, String>> chargeArrayList;
-    private ListAdapter adapter;
-    private HashMap<String, String> chargeMap;
+    private ListView chargeList, endList;
+    private ArrayList<HashMap<String, String>> chargeArrayList, chargeTotalArrayList;
+    private ListAdapter adapter, adapter2;
+    private HashMap<String, String> chargeMap, chargeTotalMap;
     public static ArrayList<String> chargeName = new ArrayList<>();
     public static ArrayList<String> chargeValue = new ArrayList<>();
     public static ArrayList<HashMap<String, String>> everyCharge = new ArrayList<>();
@@ -67,13 +67,14 @@ public class OverviewActivity extends AppCompatActivity {
 
         System.out.println(chargeName.size() + " OIHSDFOSD    " + chargeValue.size());
         chargeList = (ListView) findViewById(R.id.charges_listView);
+        endList = (ListView) findViewById(R.id.charges_total);
 
         chargeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                openInformation(view);
+                openInformation(view, position);
 
                 // ListView Clicked item index
                 /*int itemPosition     = position;
@@ -94,8 +95,41 @@ public class OverviewActivity extends AppCompatActivity {
 
     }
 
-    public void openInformation(View view) {
+    public void openInformation(View view, int position) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OverviewActivity.this);
+        String[] dialogStrings = new String[everyCharge.get(position).keySet().size() + 1];
+        String name = chargeName.get(position);
+        String money = chargeValue.get(position);
+        System.out.println("The everyCharge is" + everyCharge.get(position).toString());
+        dialogStrings[0] = "You " + (Integer.parseInt(money) < 0 ? "owe " : "paid ") + money.substring(0) + " for this charge";
+        System.out.println(dialogStrings[0]);
+        int i = 1;
+        for (String key : everyCharge.get(position).keySet()) {
+            money = everyCharge.get(position).get(key);
+            dialogStrings[i] = key + " " + (Integer.parseInt(money) < 0 ? "owes " : "paid ") + money.substring(1) + " for this charge";
+            System.out.println(dialogStrings[i]);
+        }
+
+
+
+        alertDialogBuilder.setTitle(chargeName.get(position))
+               .setItems(dialogStrings, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int which) {
+                   // The 'which' argument contains the index position
+                   // of the selected item
+               }
+        });
+        System.out.println("reached here");
+        alertDialogBuilder.create().show();
+        System.out.println("reached here also");
+
+/*
+
+
+
+
+
+
 
         alertDialogBuilder.setTitle(this.getTitle()+ " decision");
         alertDialogBuilder.setMessage("Are you sure?");
@@ -127,15 +161,18 @@ public class OverviewActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         // show alert
-        alertDialog.show();
+        alertDialog.show();*/
     }
 
 
     public void showActivity() {
 
         chargeArrayList = new ArrayList<HashMap<String, String>>();
-
-        
+        chargeTotalArrayList = new ArrayList<HashMap<String, String>>();
+        int total = 0;
+        for (String charge : chargeValue) {
+            total += Integer.parseInt(charge);
+        }
         /********************************************************/
         
         
@@ -162,6 +199,28 @@ public class OverviewActivity extends AppCompatActivity {
         }
         
         /********************************************************/
+
+
+
+        for (int i = 0; i < chargeName.size(); i++) {
+            chargeTotalMap = new HashMap<String, String>();
+
+            chargeTotalMap.put("one", "Total");
+            chargeTotalMap.put("three", String.valueOf(total));
+            chargeTotalArrayList.add(chargeTotalMap);
+        }
+
+        
+        try {
+            adapter2 = new SimpleAdapter(this, chargeTotalArrayList, R.layout.row,
+                    new String[] { "one", "two", "three" }, new int[] {
+                            R.id.one, R.id.two, R.id.three });
+            endList.setAdapter(adapter2);
+        } catch (Exception e) {
+            
+        }
+
+
 
     }
 
