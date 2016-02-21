@@ -12,16 +12,33 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="100dip"
+
+
+        <TextView android:id="@+id/text"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
             android:background="#00AF52"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:gravity="center"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="40dp"
+            android:text="My Charges" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_overview" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="22dp"
+        android:layout_marginRight="23dp"
+        android:elevation="10dp"
+        android:background="@drawable/plus"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -29,7 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
+        app:backgroundTint="#00AF52"
         android:onClick="addCharge" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

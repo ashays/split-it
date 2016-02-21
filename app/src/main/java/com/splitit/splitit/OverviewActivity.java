@@ -2,6 +2,7 @@ package com.splitit.splitit;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 
 public class OverviewActivity extends AppCompatActivity {
 
-    private ListView chargeList, endList;
+    private ListView chargeList, endListNegative, endListPositive;
     private ArrayList<HashMap<String, String>> chargeArrayList, chargeTotalArrayList;
     private ListAdapter adapter, adapter2;
     private HashMap<String, String> chargeMap, chargeTotalMap;
@@ -68,7 +70,8 @@ public class OverviewActivity extends AppCompatActivity {
 
         System.out.println(chargeName.size() + " OIHSDFOSD    " + chargeValue.size());
         chargeList = (ListView) findViewById(R.id.charges_listView);
-        endList = (ListView) findViewById(R.id.charges_total);
+        endListPositive = (ListView) findViewById(R.id.charges_totalPositive);
+        endListNegative = (ListView) findViewById(R.id.charges_totalNegative);
 
         chargeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,9 +121,9 @@ public class OverviewActivity extends AppCompatActivity {
                 .setItems(dialogStrings, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // The 'which' argument contains the index position
-                   // of the selected item
-               }
-        });
+                        // of the selected item
+                    }
+                });
         System.out.println("reached here");
         alertDialogBuilder.create().show();
         System.out.println("reached here also");
@@ -216,7 +219,13 @@ public class OverviewActivity extends AppCompatActivity {
             adapter2 = new SimpleAdapter(this, chargeTotalArrayList, R.layout.row,
                     new String[] { "one", "two", "three" }, new int[] {
                             R.id.one, R.id.two, R.id.three });
-            endList.setAdapter(adapter2);
+            //endList.setAdapter(adapter2);
+            if (total < 0) {
+                endListNegative.setAdapter(adapter2);
+            } else {
+                endListPositive.setAdapter(adapter2);
+            }
+
         } catch (Exception e) {
             
         }
